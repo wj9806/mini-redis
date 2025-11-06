@@ -5,7 +5,6 @@ import io.github.wj9806.mini.redis.server.core.RedisCoreImpl;
 import io.github.wj9806.mini.redis.server.handler.RespCommandHandler;
 import io.github.wj9806.mini.redis.server.handler.RespDecoder;
 import io.github.wj9806.mini.redis.server.handler.RespEncoder;
-import io.github.wj9806.mini.redis.server.handler.StringHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -14,14 +13,14 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
 
 @Slf4j
 public class RedisMiniServer implements RedisServer {
+
+    private static final int DEFAULT_DB_NUM = 16;
 
     private String host;
 
@@ -37,7 +36,7 @@ public class RedisMiniServer implements RedisServer {
         this.port = port;
         this.bossGroup = new NioEventLoopGroup(1);
         this.workerGroup = new NioEventLoopGroup(4);
-        this.redisCore = new RedisCoreImpl();
+        this.redisCore = new RedisCoreImpl(DEFAULT_DB_NUM);
     }
 
     @Override
