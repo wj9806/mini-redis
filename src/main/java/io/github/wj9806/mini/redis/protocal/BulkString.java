@@ -1,18 +1,23 @@
 package io.github.wj9806.mini.redis.protocal;
 
+import io.github.wj9806.mini.redis.structure.RedisBytes;
 import io.netty.buffer.ByteBuf;
 
 public class BulkString extends Resp {
 
-    private static final byte[] NULL = new byte[]{'-', '1', '\r', '\n'};
-    private static final byte[] EMPTY = new byte[]{'0', '\r', '\n', '\r', '\n'};
-    private byte[] content;
+    public static final byte[] NULL = "-1\r\n".getBytes();
+    public static final byte[] EMPTY = "0\r\n\r\n".getBytes();
+    private RedisBytes content;
 
     public BulkString(byte[] content) {
+        this.content = new RedisBytes(content);
+    }
+
+    public BulkString(RedisBytes content) {
         this.content = content;
     }
 
-    public byte[] getContent() {
+    public RedisBytes getContent() {
         return content;
     }
 
@@ -22,12 +27,13 @@ public class BulkString extends Resp {
         if (content == null) {
             buffer.writeBytes(NULL);
         } else {
-            int len = content.length;
+            int len = content.getBytes().length;
             if (len == 0) {
                 buffer.writeBytes(EMPTY);
             } else {
                 buffer.writeBytes(String.valueOf(len).getBytes());
-                buffer.writeBytes(content);
+                buffer.writeBytes(Resp.CR_LF);
+                buffer.writeBytes(content.getBytes());
                 buffer.writeBytes(Resp.CR_LF);
             }
         }

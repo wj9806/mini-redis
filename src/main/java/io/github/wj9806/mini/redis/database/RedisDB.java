@@ -2,13 +2,14 @@ package io.github.wj9806.mini.redis.database;
 
 
 import io.github.wj9806.mini.redis.internal.Dict;
+import io.github.wj9806.mini.redis.structure.RedisBytes;
 import io.github.wj9806.mini.redis.structure.RedisData;
 
 import java.util.Set;
 
 public class RedisDB {
 
-    private final Dict<byte[], RedisData> data;
+    private final Dict<RedisBytes, RedisData> data;
 
     private final int id;
 
@@ -17,23 +18,23 @@ public class RedisDB {
         this.id = id;
     }
 
-    public Set<byte[]> keys() {
+    public Set<RedisBytes> keys() {
         return data.keySet();
     }
 
-    public boolean exists(byte[] key) {
+    public boolean exists(RedisBytes key) {
         return data.containsKey(key);
     }
 
-    public RedisData get(byte[] key) {
+    public RedisData get(RedisBytes key) {
         return data.get(key);
     }
 
-    public void put(byte[] key, RedisData value) {
+    public void put(RedisBytes key, RedisData value) {
         data.put(key, value);
     }
 
-    public RedisData remove(byte[] key) {
+    public RedisData remove(RedisBytes key) {
         return data.remove(key);
     }
 

@@ -1,18 +1,19 @@
 package io.github.wj9806.mini.redis.server.core;
 
+import io.github.wj9806.mini.redis.structure.RedisBytes;
 import io.github.wj9806.mini.redis.structure.RedisData;
 
 import java.util.Set;
 
 public interface RedisCore {
 
-    Set<byte[]> keys();
+    Set<RedisBytes> keys();
 
-    void put(byte[] key, RedisData value);
+    void put(RedisBytes key, RedisData value);
 
-    RedisData get(byte[] key);
+    RedisData get(RedisBytes key);
 
-    long remove(byte[] key);
+    long remove(RedisBytes key);
 
     void selectDB(int dbIndex);
 

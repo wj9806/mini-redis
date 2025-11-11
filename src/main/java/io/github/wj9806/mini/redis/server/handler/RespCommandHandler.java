@@ -39,7 +39,7 @@ public class RespCommandHandler extends SimpleChannelInboundHandler<Resp> {
 
         try {
             Resp[] array = respArray.getContent();
-            String commandName = new String(((BulkString) array[0]).getContent());
+            String commandName = new String(((BulkString) array[0]).getContent().getBytes());
             commandName = commandName.toUpperCase();
 
             CommandType commandType = null;
